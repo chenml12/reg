@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#box{
+				width: 500px;
+				margin: 100px auto;
+				text-align: center;
+			}
+			.input-wrap{
+				margin-bottom: 10px;
+			}
+			.input-wrap span{
+				display: inline-block;
+				width: 100px;
+				height: 30px;
+				line-height: 30px;
+				text-align: right;
+			}
+			.input-wrap input{
+				outline: none;
+				width: 280px;
+				height: 30px;
+				line-height: 30px;
+				display: inline-block;
+				padding: 0 10px;
+				border: 1px solid #ddd;
+				box-shadow: 0 0 1px #ddd;
+			}
+			.input-wrap .focus{
+				border: 1px solid #00bcd4;
+				box-shadow: 0 0 1px #00bcd4;
+			}
+			.input-wrap .error{
+				border: 1px solid #ff4848;
+				box-shadow: 0 0 1px #ff4848;
+			}
+			#btn{
+				width: 200px;
+				height: 40px;
+				cursor: pointer;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<!--qq、邮箱、手机、出生年月的匹配-->
+		<!--qq:/^[1-9]\d{4,10}$/-->
+		<!--邮箱：/^[a-zA-Z]\w{5,17}@[0-9a-zA-Z]{2,8}\.(com|cn|net)$-->
+		<!--手机:/^1[34578]\d{9}$/-->
+		<div id="box">
+			<div class='input-wrap'>
+				<span>QQ:</span>
+				<input type="text" id="qq" placeholder="请输入QQ号" />
+				
+			</div>
+			<div class='input-wrap'>
+				<span>邮箱:</span>
+				<input type="text" id="email" placeholder="请输入邮箱"  />
+			</div>
+			<div class='input-wrap'>
+				<span>手机号:</span>
+				<input type="text" id="phone" placeholder="请输入手机号"  />
+			</div>
+			<div class='input-wrap'>
+				<span>出生年月:</span>
+				<input type="text" id="day" placeholder="如:2017-05-10"  />
+			</div>
+			<input type="button" id="btn" value="注册" disabled="" />
+		</div>
+		
+		<script type="text/javascript">
+			var inps=document.getElementsByTagName('input');
+			var arr=Array.from(inps);
+			arr.pop();
+			var btn=document.getElementById('btn');
+		//qq
+			var qq=document.getElementById('qq');
+			var qqReg=/^[1-9]\d{4,10}$/;
+			test(qq,qqReg);
+			//邮箱
+			var email=document.getElementById('email');
+			var emailReg=/^[a-zA-Z]\w{5,17}@[0-9a-zA-Z]{2,8}\.(com|cn|net)$/;
+			test(email,emailReg);
+			//手机号
+			var phone =document.getElementById('phone');
+			var phoneReg=/^1[34578]\d{9}$/;
+			test(phone,phoneReg);
+			function test(obj,reg){
+				obj.oninput=function(){
+					if(reg.test(obj.value)){
+						this.className='focus';
+					}else{
+						this.className='error'
+					}
+					fn();
+				}
+			}
+//			出生年月日
+
+//			一般的    是否超过今天   28 29 30 31天的判断
+			var day=document.getElementById('day');
+			var dayReg=/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[01])$/;
+			
+			day.oninput=function(){
+//				console.log(dayReg.test(day.value))
+				if(dayReg.test(day.value) &&( new Date(day.value)<new Date()) && ((new Date(day.value).getMonth()+1)==Number(day.value.substr(5,2)))){
+					this.className='focus';
+				}else{
+					this.className='error';
+				}
+				 fn();
+			}
+			function fn(){
+				if(arr.every(function(a){
+					return a.className=='focus';
+				})){
+					btn.disabled=false;
+				}else{
+					btn.disabled=true;
+				}
+			}
+			btn.onclick=function(){
+				window.open('http://www.miaov.com/');
+			}
+			
+			
+		</script>
+	</body>
+</html>
